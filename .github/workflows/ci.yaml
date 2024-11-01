@@ -13,7 +13,7 @@ jobs:
     name: pre commit checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-python@v3
       - uses: pre-commit/action@v3.0.0
 
@@ -24,7 +24,7 @@ jobs:
     outputs:
       projects: ${{ steps.list-projects.outputs.PROJECTS }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: List node projects
         id: list-projects
         run: echo "PROJECTS=$(find . -name "package.json" -exec dirname {} \; | grep -v node_modules | jq --raw-input --slurp -c 'split("\n") | .[0:-1]')" >> $GITHUB_OUTPUT
@@ -36,7 +36,7 @@ jobs:
     outputs:
       projects: ${{ steps.list-projects.outputs.PROJECTS }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: List python projects
         id: list-projects
         run: echo "PROJECTS=$(find . -name "pyproject.toml" -exec dirname {} \; | jq --raw-input --slurp -c 'split("\n") | .[0:-1]')" >> $GITHUB_OUTPUT
@@ -49,7 +49,7 @@ jobs:
       matrix:
         project: ${{ fromJson(needs.list-python-projects.outputs.projects) }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
         with:
           python-version: 3.11
@@ -85,7 +85,7 @@ jobs:
       matrix:
         project: ${{ fromJson(needs.list-node-projects.outputs.projects) }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
           node-version: 16
